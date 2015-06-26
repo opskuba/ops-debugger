@@ -44,7 +44,7 @@
 				<!-- Import dependency management from Spring Boot -->
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-dependencies</artifactId>
-				<version>1.2.3.RELEASE</version>
+				<version>1.2.4.RELEASE</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -70,13 +70,23 @@
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-redis</artifactId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
 		</dependency>
+
+		<!-- <dependency>
+			<groupId>org.springframework.amqp</groupId>
+			<artifactId>spring-rabbit</artifactId>
+		</dependency> -->
 
 	</dependencies>
 
@@ -115,4 +125,5 @@
 			</resource>
 		</resources>
 	</build>
+	<packaging>war</packaging>
 </project>
