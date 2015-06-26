@@ -97,7 +97,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>com.opskuba.debugger.OnlineDebuggerApplication</mainClass>
+					<mainClass>com.opskuba.debugger.OpsDebuggerApplication</mainClass>
 				</configuration>
 				<executions>
 					<execution>
