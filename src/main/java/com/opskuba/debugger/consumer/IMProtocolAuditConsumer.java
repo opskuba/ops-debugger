@@ -1,4 +1,4 @@
-package com.opskuba.debugger.consumer;
+/*package com.opskuba.debugger.consumer;
 
 import java.io.IOException;
 import java.util.concurrent.Callable;
@@ -70,3 +70,4 @@ public class IMProtocolAuditConsumer implements Callable<Integer>{
 	
 
 }
+*/
