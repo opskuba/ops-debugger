@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 
+import com.opskuba.debugger.configuration.OpsDebuggerConstants;
 import com.opskuba.debugger.configuration.banner.OpsDebuggerBanner;
 import com.opskuba.debugger.configuration.listener.OpsDebugerStartListener;
 
@@ -17,15 +18,14 @@ public class OpsDebuggerApplication extends SpringBootServletInitializer{
 		app.setBanner(new OpsDebuggerBanner());
 		app.setShowBanner(true);
 		app.addListeners(new OpsDebugerStartListener());
-		app.run(args);
+		OpsDebuggerConstants.ctx = app.run(args);
 	}
 	
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder applicationBuilder) {
-		
 		applicationBuilder.banner(new OpsDebuggerBanner());
 		applicationBuilder.showBanner(true);
-		
+		applicationBuilder.listeners(new OpsDebugerStartListener());
 		return applicationBuilder.sources(OpsDebuggerApplication.class);
 	}
 
