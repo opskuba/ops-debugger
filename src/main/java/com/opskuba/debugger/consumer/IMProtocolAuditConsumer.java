@@ -72,13 +72,9 @@ public class IMProtocolAuditConsumer implements Callable<Integer>{
 						try {
 							imProtocolService.audit(message, flag);
 						} catch (Exception e) {
-							e.printStackTrace();
+							logger.error("写入数据库异常",e);
 						}
-						
-						
-						System.out.println(message);
 					}
-					
 					
 				} catch (ShutdownSignalException | ConsumerCancelledException | InterruptedException e) {
 					logger.error("消费["+exchangeName+"]中的消息异常",e);

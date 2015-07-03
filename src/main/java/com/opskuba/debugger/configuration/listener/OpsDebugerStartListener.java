@@ -18,12 +18,9 @@ public class OpsDebugerStartListener implements ApplicationListener<ApplicationS
 
 	@Override
 	public void onApplicationEvent(ApplicationStartedEvent event) {
-		
 		//跟踪进站协议
 		executorService.submit(new IMProtocolAuditConsumer("uplus.websock.inbound.exchanges",(byte)1));
-		
-		
-		//executorService.submit(new IMProtocolAuditConsumer("uplus.websock.outbound.exchanges"));
+		executorService.submit(new IMProtocolAuditConsumer("uplus.websock.outbound.exchanges",(byte)0));
 	}
 
 }

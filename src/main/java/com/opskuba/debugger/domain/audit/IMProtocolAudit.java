@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 /**
@@ -53,7 +54,8 @@ public class IMProtocolAudit {
 		return id;
 	}
 
-	@Column(name = "origins")
+	@Lob
+	@Column(columnDefinition = "TEXT",name = "origins")
 	public String getOrigins() {
 		return origins;
 	}
@@ -126,9 +128,7 @@ public class IMProtocolAudit {
 	@Override
 	public String toString() {
 		return "IMProtocolAudit [channel=" + channel + ", tag=" + tag + ", type=" + type + ", sessionId=" + sessionId
-				+ ", uid=" + uid + ", bytes=" + bytes + ", origins=" + origins + ", ts=" + ts + ", flag=" + flag + "]";
+				+ ", uid=" + uid + ", bytes=" + bytes + ", ts=" + ts + ", flag=" + flag + "]";
 	}
-	
-
 
 }

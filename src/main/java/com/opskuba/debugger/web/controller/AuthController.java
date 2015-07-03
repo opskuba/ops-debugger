@@ -11,7 +11,7 @@ public class AuthController extends BasicController{
 	
 	@RequestMapping("/login")
 	public String login(String username, String password) {
-		String remoteAddr = request.getRemoteAddr();
+//		String remoteAddr = request.getRemoteAddr();
 		
 		return "dashboard";
 	}

@@ -1,17 +1,11 @@
 package com.opskuba.debugger.service;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.opskuba.debugger.domain.audit.IMProtocolAudit;
+import com.opskuba.debugger.model.IMAuditModel;
 import com.opskuba.debugger.repository.IMProtocolRepository;
 import com.opskuba.debugger.utils.JsonUtil;
-import com.uplus.model.im.IMPacket;
 
 @Service("imProtocolService")
 public class IMProtocolService {
@@ -20,26 +14,31 @@ public class IMProtocolService {
 	private IMProtocolRepository protocolRepository;
 
 	public void audit(String protocolStr, Byte flag) {
-		String[] splitProtocols = protocolStr.split("`\\$-\\$`");
-		List<String> protocols = new ArrayList<String>(Arrays.asList(splitProtocols));
-
-		IMProtocolAudit imProtocolAudit = new IMProtocolAudit();
-		imProtocolAudit.setFlag(flag);
-		imProtocolAudit.setUid(Integer.valueOf(protocols.get(1)));
-		imProtocolAudit.setSessionId(Long.valueOf(protocols.get(0)));
-		String originProtocol = protocols.get(2);
-
-		imProtocolAudit.setBytes(originProtocol.getBytes().length);
-		imProtocolAudit.setOrigins(originProtocol);
-
-		//(IMPacket) JsonUtil.fromJson(text, IMPacket.class);
-		IMPacket imPacket = (IMPacket) JsonUtil.fromJson(originProtocol, IMPacket.class);
-		imProtocolAudit.setChannel(imPacket.getChannel());
-		imProtocolAudit.setTag(imPacket.getHeader().getTag());
-		imProtocolAudit.setType(imPacket.getHeader().getType());
-		imProtocolAudit.setTs(new Timestamp(System.currentTimeMillis()));
-
-		protocolRepository.save(imProtocolAudit);
+		
+		IMAuditModel auditModel = (IMAuditModel) JsonUtil.fromJson(protocolStr,IMAuditModel.class);
+		
+		System.out.println(auditModel.getTs()+"-"+auditModel.getHostIp()+":"+auditModel.getUid()+"-["+auditModel.getClitype()+"]->"+auditModel.getCliver()+"->"+auditModel.getSessionId());
+		
+//		String[] splitProtocols = protocolStr.split("`\\$-\\$`");
+//		List<String> protocols = new ArrayList<String>(Arrays.asList(splitProtocols));
+//
+//		IMProtocolAudit imProtocolAudit = new IMProtocolAudit();
+//		imProtocolAudit.setFlag(flag);
+//		imProtocolAudit.setUid(Integer.valueOf(protocols.get(1)));
+//		imProtocolAudit.setSessionId(Long.valueOf(protocols.get(0)));
+//		String originProtocol = protocols.get(2);
+//
+//		imProtocolAudit.setBytes(originProtocol.getBytes().length);
+//		imProtocolAudit.setOrigins(originProtocol);
+//
+//		//(IMPacket) JsonUtil.fromJson(text, IMPacket.class);
+//		IMPacket imPacket = (IMPacket) JsonUtil.fromJson(originProtocol, IMPacket.class);
+//		imProtocolAudit.setChannel(imPacket.getChannel());
+//		imProtocolAudit.setTag(imPacket.getHeader().getTag());
+//		imProtocolAudit.setType(imPacket.getHeader().getType());
+//		imProtocolAudit.setTs(new Timestamp(System.currentTimeMillis()));
+//
+//		protocolRepository.save(imProtocolAudit);
 	}
 
 	public static void main(String[] args) {
