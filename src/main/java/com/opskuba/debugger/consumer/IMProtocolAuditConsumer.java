@@ -55,6 +55,7 @@ public class IMProtocolAuditConsumer implements Callable<Integer>{
 			channel.basicConsume(queueName, true, consumer);
 			
 			while (true) {
+				
 				try {
 					
 					if (OpsDebuggerConstants.ctx == null
@@ -66,10 +67,9 @@ public class IMProtocolAuditConsumer implements Callable<Integer>{
 						QueueingConsumer.Delivery delivery = consumer.nextDelivery();
 						String message = new String(delivery.getBody());
 						
-						IMProtocolService imProtocolService = (IMProtocolService) OpsDebuggerConstants.ctx
-								.getBean("imProtocolService");
-						
 						try {
+							IMProtocolService imProtocolService = (IMProtocolService) OpsDebuggerConstants.ctx
+									.getBean("imProtocolService");
 							imProtocolService.audit(message, flag);
 						} catch (Exception e) {
 							logger.error("写入数据库异常",e);

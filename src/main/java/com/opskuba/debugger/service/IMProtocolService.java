@@ -23,7 +23,7 @@ public class IMProtocolService {
 	private static final Logger LOG = LoggerFactory.getLogger(IMProtocolService.class);
 
 	private static final String KEYSPACE_NAME = "statistic";
-	
+
 	private static final String ORIGIN_TABLE_NAME = "protocols";
 	private static final String ORIGIN_TABLE_NAME_ORDER_BY_BYTES = "protocols_order_by_bytes";
 
@@ -41,11 +41,11 @@ public class IMProtocolService {
 			.append(".")
 			.append(ORIGIN_TABLE_NAME_ORDER_BY_BYTES)
 			.append("(uid,sid,ip_address,occured_on,occured_at,seq,channel,tag,type,bytes,client_version,client_type) ")
-			.append("VALUES").append("(?,?,?,?,?,?,?,?,?,?,?,?)").append(";");
+			.append("VALUES").append("(?,?,?,?,?,?,?,?,?,?,?,?)").append(" USING TTL 604800").append(";");
 
 	private static final PreparedStatement ORIGIN_STATEMENT = CassandraOperator.instance().getSession()
 			.prepare(ORIGIN_CQL_BUFF.toString());
-	
+
 	private static final PreparedStatement ORIGIN_STATEMENT_ORDER_BY_BYTES = CassandraOperator.instance().getSession()
 			.prepare(ORIGIN_CQL_BUFF_ORDER_BY_BYTES.toString());
 
@@ -58,7 +58,7 @@ public class IMProtocolService {
 		try {
 			imPacket = (IMPacket) JsonUtil.fromJson(auditModel.getPacket(), IMPacket.class);
 		} catch (Exception e) {
-			LOG.error(auditModel.getPacket(), e);
+			LOG.error("解包失败:" + auditModel.getPacket());
 		}
 
 		if (imPacket != null) {
@@ -86,7 +86,7 @@ public class IMProtocolService {
 			imProtocolStatisticModel.setBytes(auditModel.getPacket().getBytes().length);
 
 			imProtocolStatisticModel.setClientVersion(auditModel.getCliver());
-			imProtocolStatisticModel.setClientType(Integer.valueOf(auditModel.getClitype()));
+			imProtocolStatisticModel.setClientType(Integer.valueOf(null!=auditModel.getClitype()?auditModel.getClitype():"0"));
 
 			Session session = CassandraOperator.instance().getSession();
 
@@ -115,6 +115,8 @@ public class IMProtocolService {
 						imProtocolStatisticModel.getClientVersion(), imProtocolStatisticModel.getClientType());
 				session.execute(boundStatement);
 			}
+			
+			imProtocolStatisticModel=null;
 		}
 
 	}
